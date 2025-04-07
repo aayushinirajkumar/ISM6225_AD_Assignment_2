@@ -62,8 +62,39 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return new List<int>(); // Placeholder
+                // List for storing missing numbers
+                List<int> result = new List<int>();
+
+                // First pass: Mark the presence of each number by negating the value at the corresponding index
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    int val = Math.Abs(nums[i]); // Take absolute value in case it's already been negated
+
+                    // Guard condition to avoid Index Out Of Range Exception
+                    // Only process values that are in range
+                    if (val >= 1 && val <= nums.Length)
+                    {
+                        int index = val - 1;
+
+                        // Negate the value at that index if it's still positive
+                        if (nums[index] > 0)
+                        {
+                            nums[index] = -nums[index];
+                        }
+                    }
+                }
+
+                // Second pass: Find indices with positive values 
+                // Hence, those numbers (index + 1) are missing from the array
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    if (nums[i] > 0)
+                    {
+                        result.Add(i + 1); // i + 1 gives the actual number that was missing
+                    }
+                }
+
+                return result;
             }
             catch (Exception)
             {
@@ -76,8 +107,26 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return new int[0]; // Placeholder
+                // Create separate lists to store even and odd numbers
+                List<int> evens = new List<int>();
+                List<int> odds = new List<int>();
+
+                // Loop through each element in the array
+                foreach (int num in nums)
+                {
+                    // If the number is even, add it to the evens list
+                    if (num % 2 == 0)
+                        evens.Add(num);
+                    // Otherwise, add it to the odds list
+                    else
+                        odds.Add(num);
+                }
+
+                // Append the odd numbers after the even numbers
+                evens.AddRange(odds);
+
+                // Convert the final combined list to an array and return it
+                return evens.ToArray();
             }
             catch (Exception)
             {
@@ -90,8 +139,29 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return new int[0]; // Placeholder
+                // Dictionary to store number/index
+                Dictionary<int, int> map = new Dictionary<int, int>();
+
+                // Loop through each element in array
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    int complement = target - nums[i];
+
+                    // If the complement exists, return indices
+                    if (map.ContainsKey(complement))
+                    {
+                        return new int[] { map[complement], i };
+                    }
+
+                    // Store current number with its index
+                    if (!map.ContainsKey(nums[i]))
+                    {
+                        map[nums[i]] = i;
+                    }
+                }
+
+                // If no solution found, return empty array
+                return new int[0];
             }
             catch (Exception)
             {
@@ -104,8 +174,19 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                // Sorting array from largest to smallest
+                Array.Sort(nums);
+
+                int n = nums.Length;
+
+                // Case 1: Product of largest three numbers
+                int product1 = nums[n - 1] * nums[n - 2] * nums[n - 3];
+
+                // Case 2: Product of two smallest and largest number
+                int product2 = nums[0] * nums[1] * nums[n - 1];
+
+                // Return the maximum of the two
+                return Math.Max(product1, product2);
             }
             catch (Exception)
             {
@@ -118,8 +199,10 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return "101010"; // Placeholder
+                // Convert decimal number to binary using base 2
+                string binary = Convert.ToString(decimalNumber, 2);
+
+                return binary;
             }
             catch (Exception)
             {
@@ -132,8 +215,28 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                int left = 0;
+                int right = nums.Length - 1;
+
+                // Binary search loop
+                while (left < right)
+                {
+                    int mid = left + (right - left) / 2;
+
+                    // If mid is greater than right, min is in the right half
+                    if (nums[mid] > nums[right])
+                    {
+                        left = mid + 1;
+                    }
+                    else
+                    {
+                        // Min is at mid or to the left of mid
+                        right = mid;
+                    }
+                }
+
+                // At the end, left == right and points to the smallest value
+                return nums[left];
             }
             catch (Exception)
             {
@@ -146,8 +249,25 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return false; // Placeholder
+                // Negative numbers are not palindromes
+                if (x < 0)
+                {
+                    return false;
+                }
+
+                int original = x;
+                int reversed = 0;
+
+                // Reverse the number
+                while (x != 0)
+                {
+                    int digit = x % 10;
+                    reversed = reversed * 10 + digit;
+                    x /= 10;
+                }
+
+                // A number is a palindrome if it equals its reversed version
+                return original == reversed;
             }
             catch (Exception)
             {
@@ -160,8 +280,23 @@ namespace Assignment_2
         {
             try
             {
-                // Write your code here
-                return 0; // Placeholder
+                // Base cases
+                if (n == 0) return 0;
+                if (n == 1) return 1;
+
+                int a = 0;
+                int b = 1;
+                int fib = 0;
+
+                // Looping from 2 to n to build Fibonacci value
+                for (int i = 2; i <= n; i++)
+                {
+                    fib = a + b;
+                    a = b;
+                    b = fib;
+                }
+
+                return fib;
             }
             catch (Exception)
             {
